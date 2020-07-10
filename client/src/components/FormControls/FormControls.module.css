@@ -1,0 +1,16 @@
+.formControl {
+    margin-bottom: 10px;
+}
+
+.formControl.error input {
+    border: solid red 2px;
+}
+.formControl.error span {
+    color: red;
+}
+
+.formSummaryError {
+    border: solid red 2px;
+    padding: 5px;
+    color: red;
+}

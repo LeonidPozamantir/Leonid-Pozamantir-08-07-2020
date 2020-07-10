@@ -5,6 +5,8 @@ import path = require('path');
 const PORT = config.get('general.port') || 5000;
 const app = express();
 
+app.use(express.json());
+
 app.use('/tasks', require('./routes/tasks.routes'));
 
 if (process.env.NODE_ENV === 'production') {

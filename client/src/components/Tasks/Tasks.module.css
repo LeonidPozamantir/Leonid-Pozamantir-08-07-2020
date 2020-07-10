@@ -41,6 +41,10 @@ tr {
     border-bottom: solid #d3d3d3 1px;
 }
 
+tr:hover {
+    background-color: #eaf9f4;
+}
+
 .headerRow {
     border-bottom: solid #d3d3d3 2px;
 }
@@ -145,4 +149,8 @@ th {
 
 .actionLabel {
     font-size: 10px;
+}
+
+.action img {
+    cursor: pointer
 }
