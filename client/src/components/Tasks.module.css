@@ -1,0 +1,148 @@
+.header {
+    font-size: 24px;
+    font-weight: bold;
+    color: #00b173;
+    text-align: right
+}
+
+.secondLine {
+    height: 40px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.secondLine button {
+    background-color: #00b173;
+    color: white;
+    height: 40px;
+    border: none;
+    outline: none;
+    min-width: 10%;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.count {
+    float: right;
+    line-height: 40px;
+}
+
+.table {
+    margin-top: 10px;
+    width: 100%;
+    table-layout: fixed;
+    border: solid #d3d3d3 2px;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+tr {
+    border-bottom: solid #d3d3d3 1px;
+}
+
+.headerRow {
+    border-bottom: solid #d3d3d3 2px;
+}
+
+th, td {
+    text-align: right;
+    border: none;
+    padding-left: 10px;
+}
+
+th {
+    background-color: #dfdfdf;
+    height: 45px;
+    position: relative;
+}
+
+
+
+.actionsColumn {
+    width: 16%;
+}
+
+.dateColumn {
+    width: 21%;
+}
+
+.mailColumn {
+    width: 33%;
+}
+
+.phoneColumn {
+    width: 15%;
+}
+
+.usernameColumn {
+    width: 15%;
+}
+
+.table input[type="checkbox"] {
+    position: relative;
+    top: 2px;
+}
+
+.arrowsContainer {
+    position: relative;
+    display: inline-block;
+}
+
+.sortBy:before,
+.sortBy:after {
+	border: 4px solid transparent;
+	content: "";
+	display: block;
+	height: 0;
+    top: calc(50% - 4px);
+    left: -10px;
+	position: absolute;
+	width: 0;
+}
+.sortBy:before {
+	border-bottom-color: #666;
+	margin-top: -9px;
+}
+.sortBy:after {
+	border-top-color: #666;
+	margin-top: 1px;
+}
+
+
+.row {
+    height: 60px;
+    color: #414d5b
+}
+
+.dateBlock {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.done {
+    display: inline-block;
+    width: 30px;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.date {
+    display: inline-block;
+    height: 100%;
+    margin: auto 0;
+}
+
+.actionsBlock {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-around;
+}
+
+.action {
+    width: 30px;
+}
+
+.actionLabel {
+    font-size: 10px;
+}
