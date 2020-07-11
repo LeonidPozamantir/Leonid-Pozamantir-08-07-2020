@@ -29,7 +29,9 @@ class DbConnector {
     }
 
     async editTask(task: EditTaskType) {
-        return knex('tasks').update(task);
+        const updatedTask = { ...task };
+        delete updatedTask.id;
+        return knex('tasks').where({ id: task.id }).update(updatedTask);
     }
 
     deleteTask(id: number) {

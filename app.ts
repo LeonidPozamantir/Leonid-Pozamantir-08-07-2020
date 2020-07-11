@@ -7,7 +7,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/tasks', require('./routes/tasks.routes'));
+app.use('/btasks', require('./routes/tasks.routes'));
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, '..', 'client', 'build')));
