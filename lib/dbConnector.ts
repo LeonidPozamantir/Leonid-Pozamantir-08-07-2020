@@ -1,64 +1,39 @@
-const tasks = [
-    {
-        id: 1,
-        username: 'שם משתמש',
-        phone: '0526589595',
-        email: 'name@doamin.com',
-        done: true,
-        date: '14.08.2019',
-    },
-    {
-        id: 2,
-        username: 'שם משתמש',
-        phone: '0526589595',
-        email: 'name@doamin.com',
-        done: false,
-        date: '13.06.2019',
-    }
-];
+
+const moment = require('moment');
+const knex = require('./knex');
 
 class DbConnector {
     getAllTasks() {
-        return Promise.resolve(tasks);
+        return knex('tasks').select()
+        .then((tasks: Array<TaskType>) => {
+            tasks.forEach(t => {
+                t.done = !!t.done;
+            });
+            return tasks;
+        });
     }
 
     getTask(id: number) {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id === id) return Promise.resolve(tasks[i]);
-        }
-        return Promise.reject('Task does not exist');
+        return knex('tasks').where({ id }).first();
     }
 
     createTask(task: NewTaskType) {
-        tasks.push({
-            id: tasks.length + 1,
+        const newRecord = {
             username: task.username,
             phone: task.phone,
             email: task.email,
             done: false,
-            date: '10.07.2020',
-        });
-        return Promise.resolve();
+            date: moment().format('DD.MM.YYYY'),
+        };
+        return knex('tasks').insert(newRecord);
     }
 
     async editTask(task: EditTaskType) {
-        const curTask = await this.getTask(task.id);
-        if (!curTask) return Promise.reject();
-        curTask.username = task.username;
-        curTask.phone = task.phone;
-        curTask.email = task.email;
-        curTask.done = task.done;
-        return Promise.resolve();
+        return knex('tasks').update(task);
     }
 
     deleteTask(id: number) {
-        for (let i = 0; i < tasks.length; i++) {
-            if (tasks[i].id === id) {
-                tasks.splice(i, 1);
-                return Promise.resolve();
-            }
-        }
-        return Promise.reject('Task not found');
+        return knex('tasks').where({ id }).delete();
     }
 };
 
@@ -72,4 +47,7 @@ type NewTaskType = {
 type EditTaskType = NewTaskType & {
     id: number,
     done: boolean,
+};
+type TaskType = EditTaskType & {
+    date: string,
 };
