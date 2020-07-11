@@ -1,11 +1,11 @@
 
 const moment = require('moment');
-const knex = require('./knex');
+import knex from './knex';
 
 class DbConnector {
     getAllTasks() {
-        return knex('tasks').select()
-        .then((tasks: Array<TaskType>) => {
+        return knex<TaskType>('tasks').select()
+        .then((tasks) => {
             tasks.forEach(t => {
                 t.done = !!t.done;
             });
@@ -14,7 +14,7 @@ class DbConnector {
     }
 
     getTask(id: number) {
-        return knex('tasks').where({ id }).first();
+        return knex<TaskType>('tasks').where({ id }).first();
     }
 
     createTask(task: NewTaskType) {
@@ -25,13 +25,13 @@ class DbConnector {
             done: false,
             date: moment().format('DD.MM.YYYY'),
         };
-        return knex('tasks').insert(newRecord);
+        return knex<TaskType>('tasks').insert(newRecord);
     }
 
     async editTask(task: EditTaskType) {
         const updatedTask = { ...task };
         delete updatedTask.id;
-        return knex('tasks').where({ id: task.id }).update(updatedTask);
+        return knex<TaskType>('tasks').where({ id: task.id }).update(updatedTask);
     }
 
     deleteTask(id: number) {
@@ -41,15 +41,15 @@ class DbConnector {
 
 module.exports = new DbConnector();
 
-type NewTaskType = {
+export type NewTaskType = {
     username: string,
     phone: string,
     email: string,
 };
-type EditTaskType = NewTaskType & {
+export type EditTaskType = NewTaskType & {
     id: number,
     done: boolean,
 };
-type TaskType = EditTaskType & {
+export type TaskType = EditTaskType & {
     date: string,
 };

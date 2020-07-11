@@ -1,19 +1,20 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 
 const dbConnector = require('../lib/dbConnector');
+import { NewTaskType, EditTaskType, TaskType } from '../lib/dbConnector';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request, res: Response<APIResponseType<Array<TaskType>>>) => {
     try {
         const tasks = await dbConnector.getAllTasks();
         res.status(200).send({ resultCode: 0, data: tasks, message: '' });
     } catch (e) {
-        res.status(200).send({ resultCode: 1, data: {}, message: e });
+        res.status(200).send({ resultCode: 1, data: [], message: e });
     }
 });
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req: Request, res: Response<APIResponseType<TaskType | {}>>) => {
     try {
         const task = await dbConnector.getTask(parseInt(req.params.id));
         res.status(200).send({ resultCode: 0, data: task, message: '' });
@@ -32,7 +33,7 @@ const validate = (username: string, phone: string, email: string) => {
     return null;
 };
 
-router.post('/create', async (req, res) => {
+router.post('/create', async (req: Request<any, APIResponseType, NewTaskType>, res: Response<APIResponseType>) => {
     const validationErrorMessage = validate(req.body.username, req.body.phone, req.body.email);
     if (validationErrorMessage) {
         res.status(200).send({ resultCode: 1, data: {}, message: validationErrorMessage });
@@ -46,7 +47,7 @@ router.post('/create', async (req, res) => {
     }
 });
 
-router.put('/edit', async (req, res) => {
+router.put('/edit', async (req: Request<any, APIResponseType, EditTaskType>, res: Response<APIResponseType>) => {
     const validationErrorMessage = validate(req.body.username, req.body.phone, req.body.email);
     if (validationErrorMessage) {
         res.status(200).send({ resultCode: 1, data: {}, message: validationErrorMessage });
@@ -60,7 +61,7 @@ router.put('/edit', async (req, res) => {
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', async (req: Request, res: Response<APIResponseType<TaskType | {}>>) => {
     try {
         await dbConnector.deleteTask(parseInt(req.params.id));
         res.status(200).send({ resultCode: 0, data: {}, message: '' });
@@ -70,3 +71,14 @@ router.delete('/:id', async (req, res) => {
 });
 
 module.exports = router;
+
+type APIResponseType<D = {}, RC = ResultCodesEnum> = {
+    data: D,
+    resultCode: RC,
+    message: string,
+};
+
+enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+};
